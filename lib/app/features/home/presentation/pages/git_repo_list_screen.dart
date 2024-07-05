@@ -42,9 +42,9 @@ class GitRepoListScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is GitRepoInitial) {
                 context.read<GitRepoCubit>().fetchRepositories();
-                return const Center(child: CircularProgressIndicator());
+                return _showLoader(context);
               } else if (state is GitRepoLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return _showLoader(context);
               } else if (state is GitRepoFailure) {
                 return _showErrorMsg(context, state.errorMsg);
               } else if (state is GitRepoSuccess) {
@@ -87,6 +87,16 @@ class GitRepoListScreen extends StatelessWidget {
     } on Exception catch (e) {
       sendPort.send("Error:${e.toString()}");
     }
+  }
+
+  _showLoader(BuildContext context) {
+    return SizedBox(
+      height: ResponsiveDesign.screenHeight(context),
+      width: ResponsiveDesign.screenWidth(context),
+      child: const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 
   _showErrorMsg(BuildContext context, String message) {
