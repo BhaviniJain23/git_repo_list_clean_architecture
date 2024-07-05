@@ -90,12 +90,12 @@ class GitRepoListScreen extends StatelessWidget {
   }
 
   _showErrorMsg(BuildContext context, String message) {
-    return Container(
+    return SizedBox(
+      height: ResponsiveDesign.screenHeight(context),
+      width: ResponsiveDesign.screenWidth(context),
       child: Center(
         child: Text(message),
       ),
-      height: ResponsiveDesign.screenHeight(context),
-      width: ResponsiveDesign.screenWidth(context),
     );
   }
 }
