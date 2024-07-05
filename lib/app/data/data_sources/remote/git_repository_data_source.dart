@@ -1,6 +1,6 @@
 import 'package:ailoitte/app/core/error/exceptions.dart';
 import 'package:ailoitte/app/core/network/dio_consumer.dart';
-import 'package:ailoitte/app/core/utils/app_endpoints.dart';
+import 'package:ailoitte/app/core/constants/app_endpoints.dart';
 import 'package:ailoitte/app/domain/entities/home/git_repo_request_params.dart';
 import 'package:ailoitte/app/domain/entities/home/git_repo_response_model.dart';
 

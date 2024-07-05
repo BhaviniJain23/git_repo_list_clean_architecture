@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../utils/app_strings.dart';
+import '../constants/app_strings.dart';
 
 class GenericException extends Equatable implements Exception {
   final String message;

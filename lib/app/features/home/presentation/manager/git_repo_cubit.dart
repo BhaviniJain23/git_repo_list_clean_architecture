@@ -30,7 +30,7 @@ class GitRepoCubit extends Cubit<GitRepoState> {
     result.fold(
       (error) => emit(GitRepoFailure(error.message)),
       (data) async {
-        final saved = await _localRepo.saveRepositories([data.items[0]]);
+        final saved = await _localRepo.saveRepositories(data.items);
         if (saved) {
           print('Repositories saved successfully');
         } else {

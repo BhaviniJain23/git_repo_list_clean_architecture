@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:ailoitte/app/core/network/app_interceptors.dart';
-import 'package:ailoitte/app/core/utils/app_endpoints.dart';
+import 'package:ailoitte/app/core/constants/app_endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';

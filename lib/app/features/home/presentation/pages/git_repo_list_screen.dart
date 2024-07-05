@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:ailoitte/app/features/home/presentation/manager/git_repo_cubit.dart';
+import 'package:ailoitte/app/features/home/presentation/widget/git_repo_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,18 +30,11 @@ class GitRepoListScreen extends StatelessWidget {
                 // fetchGitRepositoriesInIsolate(context);
               },
               child: ListView.separated(
+                physics: const BouncingScrollPhysics(),
                 itemCount: state.model.length,
                 padding: const EdgeInsets.all(10),
                 itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black)),
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      jsonEncode(state.model[index].toJson()),
-                    ),
-                  );
+                  return GitRepoCard(item: state.model[index]);
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(

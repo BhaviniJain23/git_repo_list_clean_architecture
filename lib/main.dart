@@ -1,7 +1,7 @@
 import 'package:ailoitte/app/config/router/app_router.dart';
 import 'package:ailoitte/app/config/theme/app_theme.dart';
 import 'package:ailoitte/app/core/injections.dart';
-import 'package:ailoitte/app/core/utils/app_constants.dart';
+import 'package:ailoitte/app/core/constants/app_constants.dart';
 import 'package:ailoitte/app/features/home/presentation/manager/git_repo_cubit.dart';
 import 'package:ailoitte/app/features/home/presentation/pages/git_repo_list_screen.dart';
 import 'package:flutter/material.dart';
