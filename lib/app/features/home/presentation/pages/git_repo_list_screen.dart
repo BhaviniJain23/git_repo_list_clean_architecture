@@ -1,5 +1,6 @@
 import 'dart:isolate';
 import 'package:ailoitte/app/core/helper/extension.dart';
+import 'package:ailoitte/app/core/helper/size_config.dart';
 import 'package:ailoitte/app/core/injections.dart';
 import 'package:ailoitte/app/features/home/presentation/manager/git_repo_cubit.dart';
 import 'package:ailoitte/app/features/home/presentation/widget/git_repo_card.dart';
@@ -35,36 +36,40 @@ class GitRepoListScreen extends StatelessWidget {
             }
           });
         },
-        child: BlocBuilder<GitRepoCubit, GitRepoState>(
-          builder: (context, state) {
-            if (state is GitRepoInitial) {
-              context.read<GitRepoCubit>().fetchRepositories();
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is GitRepoLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is GitRepoFailure) {
-              return Center(child: Text(state.errorMsg));
-            } else if (state is GitRepoSuccess) {
-              if (state.model.isEmpty) {
-                return const Center(child: Text('No Data Found'));
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: BlocBuilder<GitRepoCubit, GitRepoState>(
+            builder: (context, state) {
+              if (state is GitRepoInitial) {
+                context.read<GitRepoCubit>().fetchRepositories();
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is GitRepoLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is GitRepoFailure) {
+                return _showErrorMsg(context, state.errorMsg);
+              } else if (state is GitRepoSuccess) {
+                if (state.model.isEmpty) {
+                  return _showErrorMsg(context, 'No Data Found');
+                }
+                return ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.model.length,
+                  padding: const EdgeInsets.all(10),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return GitRepoCard(item: state.model[index]);
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 15,
+                    );
+                  },
+                );
+              } else {
+                return const Center(child: Text('Unknown state'));
               }
-              return ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                itemCount: state.model.length,
-                padding: const EdgeInsets.all(10),
-                itemBuilder: (context, index) {
-                  return GitRepoCard(item: state.model[index]);
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 15,
-                  );
-                },
-              );
-            } else {
-              return const Center(child: Text('Unknown state'));
-            }
-          },
+            },
+          ),
         ),
       ),
     );
@@ -82,5 +87,15 @@ class GitRepoListScreen extends StatelessWidget {
     } on Exception catch (e) {
       sendPort.send("Error:${e.toString()}");
     }
+  }
+
+  _showErrorMsg(BuildContext context, String message) {
+    return Container(
+      child: Center(
+        child: Text(message),
+      ),
+      height: ResponsiveDesign.screenHeight(context),
+      width: ResponsiveDesign.screenWidth(context),
+    );
   }
 }
