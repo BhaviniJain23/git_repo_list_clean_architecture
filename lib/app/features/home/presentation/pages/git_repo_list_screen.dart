@@ -1,8 +1,10 @@
 import 'dart:isolate';
+import 'package:ailoitte/app/core/helper/extension.dart';
 import 'package:ailoitte/app/core/injections.dart';
 import 'package:ailoitte/app/features/home/presentation/manager/git_repo_cubit.dart';
 import 'package:ailoitte/app/features/home/presentation/widget/git_repo_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GitRepoListScreen extends StatelessWidget {
@@ -13,34 +15,23 @@ class GitRepoListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
-        actions: [
-          IconButton(
-              onPressed: () async {
-                final receivePort = ReceivePort();
-                await Isolate.spawn(
-                    refreshRepositoriesIsolate, receivePort.sendPort);
-                receivePort.listen((result) {
-                  if (!result.startsWith("Error")) {
-                    context.read<GitRepoCubit>().getDataFromLocal();
-                  } else {
-                    // Handle error
-                    debugPrint("Error: $result");
-                  }
-                });
-              },
-              icon: const Icon(Icons.add))
-        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
           final receivePort = ReceivePort();
-          await Isolate.spawn(refreshRepositoriesIsolate, receivePort.sendPort);
+          var rootToken = RootIsolateToken.instance!;
+
+          await Isolate.spawn(
+              refreshRepositoriesIsolate, [receivePort.sendPort, rootToken]);
           receivePort.listen((result) {
             if (!result.startsWith("Error")) {
               context.read<GitRepoCubit>().getDataFromLocal();
+              context
+                  .showSnackBar("Your data has been successfully refreshed.");
             } else {
               // Handle error
               debugPrint("Error: $result");
+              context.showSnackBar(result, snackType: SnackType.error);
             }
           });
         },
@@ -79,7 +70,10 @@ class GitRepoListScreen extends StatelessWidget {
     );
   }
 
-  refreshRepositoriesIsolate(SendPort sendPort) async {
+  refreshRepositoriesIsolate(List<dynamic> args) async {
+    final sendPort = args[0] as SendPort;
+    final rootToken = args[1] as RootIsolateToken;
+    BackgroundIsolateBinaryMessenger.ensureInitialized(rootToken);
     setup();
     final cubit = getIt<GitRepoCubit>();
     try {

@@ -43,14 +43,14 @@ class GitRepoCubit extends Cubit<GitRepoState> {
       final result = await useCase(GitRepoRequestModel(
           query: "created:>2022-04-29", sort: "stars", order: "desc"));
 
-      result.fold(
-        (left) => "Error:${left.message}",
+      final response = await result.fold(
+        (left) async => "Error:${left.message}",
         (right) async {
           await localRepo.saveRepositories(right.items);
           return "Success";
         },
       );
-      return "Success";
+      return response;
     } on Exception catch (e) {
       return "Error:${e.toString()}";
     }
