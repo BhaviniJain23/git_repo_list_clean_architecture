@@ -6,7 +6,6 @@ import 'package:ailoitte/app/data/data_sources/remote/git_repository_data_source
 import 'package:ailoitte/app/data/repositories/git_repository_api_repo_impl.dart';
 import 'package:ailoitte/app/domain/repositories/home/git_repositories_local_repo_base.dart';
 import 'package:ailoitte/app/domain/usecases/git_repo_usecase.dart';
-
 import 'package:ailoitte/app/features/home/presentation/manager/git_repo_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -46,6 +45,6 @@ void setup() {
       () => GitRepoLocalRepo(getIt<SqliteDatabaseHelper>()));
 
   // Register GitRepoCubit
-  getIt.registerLazySingleton<GitRepoCubit>(() => GitRepoCubit(
+  getIt.registerFactory<GitRepoCubit>(() => GitRepoCubit(
       useCase: getIt<GitRepoUseCase>(), localRepo: getIt<GitRepoLocalRepo>()));
 }

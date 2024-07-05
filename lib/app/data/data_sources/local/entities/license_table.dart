@@ -1,4 +1,5 @@
-import 'package:ailoitte/app/data/data_sources/local/entities/item_table.dart';
+// ignore_for_file: constant_identifier_names
+
 import 'package:sqflite/sqflite.dart';
 
 class LicensesTable {

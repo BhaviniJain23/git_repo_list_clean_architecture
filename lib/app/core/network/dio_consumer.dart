@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:ailoitte/app/core/error/exceptions.dart';
 import 'package:ailoitte/app/core/constants/app_strings.dart';
+import 'package:ailoitte/app/core/error/exceptions.dart';
 import 'package:dio/dio.dart';
 
 abstract class ApiConsumer {

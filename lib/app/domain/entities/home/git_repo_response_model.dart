@@ -1,6 +1,6 @@
-import 'package:ailoitte/app/data/data_sources/local/entities/item_table.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
+
+import 'package:json_annotation/json_annotation.dart';
 
 part 'git_repo_response_model.g.dart';
 

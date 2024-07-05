@@ -1,8 +1,5 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:convert';
-
-import 'package:ailoitte/app/domain/entities/home/git_repo_response_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ItemsTable {

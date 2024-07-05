@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:ailoitte/app/data/data_sources/local/entities/item_table.dart';
 import 'package:sqflite/sqflite.dart';
 

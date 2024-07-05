@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:ui';
 
 const Color borderColor = Color(0xffd0d7de);

@@ -1,12 +1,9 @@
-import 'dart:convert';
-import 'dart:developer';
+import 'dart:ui' as ui show PlaceholderAlignment;
 
 import 'package:ailoitte/app/core/constants/app_colors.dart';
 import 'package:ailoitte/app/core/helper/size_config.dart';
 import 'package:ailoitte/app/domain/entities/home/git_repo_response_model.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui' as ui show PlaceholderAlignment;
-
 import 'package:intl/intl.dart';
 
 class GitRepoCard extends StatelessWidget {
@@ -15,7 +12,6 @@ class GitRepoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(jsonEncode(item.toJson()));
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -27,7 +23,7 @@ class GitRepoCard extends StatelessWidget {
         children: [
           Flexible(
             child: Text(
-              "${item.owner.login ?? ''}/${item.name}",
+              "${item.owner.login}/${item.name}",
               style: TextStyle(
                   fontSize: ResponsiveDesign.fontSize(16, context),
                   fontWeight: FontWeight.w500,
